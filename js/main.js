@@ -1,41 +1,90 @@
+// Tiny Guardians Contact Form Logic
+
 (function () {
-  const yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  const form = document.getElementById("contactForm");
-  if (!form) return;
+const form = document.getElementById("contactForm");
+const status = document.getElementById("formStatus");
 
-  const status = document.getElementById("formStatus");
+if(!form) return;
 
-  function setError(fieldName, message) {
-    const el = document.querySelector(`[data-error-for="${fieldName}"]`);
-    if (el) el.textContent = message || "";
-  }
+function isValidEmail(email){
+return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
-  function isValidEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-  }
+form.addEventListener("submit", function(e){
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    ["name", "email", "phone", "message"].forEach((k) => setError(k, ""));
-    if (status) status.textContent = "";
+e.preventDefault();
 
-    const name = form.elements.namedItem("name").value.trim();
-    const email = form.elements.namedItem("email").value.trim();
-    const phone = form.elements.namedItem("phone").value.trim();
-    const message = form.elements.namedItem("message").value.trim();
+const name = document.getElementById("name").value.trim();
+const email = document.getElementById("email").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const message = document.getElementById("message").value.trim();
 
-    let ok = true;
+if(name.length < 2){
+status.textContent = "Please enter your full name.";
+return;
+}
 
-    if (name.length < 2) { setError("name", "Name must be at least 2 characters."); ok = false; }
-    if (!isValidEmail(email)) { setError("email", "Enter a valid email address."); ok = false; }
-    if (phone && phone.length < 7) { setError("phone", "Phone looks too short."); ok = false; }
-    if (message.length < 10) { setError("message", "Message must be at least 10 characters."); ok = false; }
+if(!isValidEmail(email)){
+status.textContent = "Enter a valid email address.";
+return;
+}
 
-    if (!ok) { if (status) status.textContent = "Fix the errors above and try again."; return; }
+if(phone.length < 7){
+status.textContent = "Enter a valid phone number.";
+return;
+}
 
-    if (status) status.textContent = "Message validated. (No email sent — add backend later.)";
-    form.reset();
-  });
+if(message.length < 10){
+status.textContent = "Message must be at least 10 characters.";
+return;
+}
+
+status.textContent = "Sending message...";
+
+emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
+name: name,
+email: email,
+phone: phone,
+message: message,
+to_email: "tinyguardiansbabysitters@gmail.com"
+})
+
+.then(function(){
+
+status.textContent = "Message sent successfully!";
+form.reset();
+
+})
+
+.catch(function(){
+
+status.textContent = "Failed to send message. Please try again.";
+
+});
+
+});
+
 })();
+
+// Hero slider functionality
+
+const slides = document.querySelectorAll(".slide");
+
+let currentSlide = 0;
+
+function showNextSlide(){
+
+slides[currentSlide].classList.remove("active");
+
+currentSlide++;
+
+if(currentSlide >= slides.length){
+currentSlide = 0;
+}
+
+slides[currentSlide].classList.add("active");
+
+}
+
+setInterval(showNextSlide, 3000);
