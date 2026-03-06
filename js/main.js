@@ -88,3 +88,10 @@ slides[currentSlide].classList.add("active");
 }
 
 setInterval(showNextSlide, 3000);
+
+const toggle = document.getElementById("menuToggle");
+const nav = document.getElementById("navLinks");
+
+toggle.addEventListener("click", () => {
+nav.classList.toggle("show");
+});
