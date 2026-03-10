@@ -72,6 +72,10 @@ color:#2b7cff;
 }
 
 
+html, body{
+max-width:100%;
+overflow-x:hidden;
+}
 
 /* Sticky navigation bar */
 
@@ -590,6 +594,65 @@ height:40px;
 
 .brand-sub{
 display:none;
+}
+
+}
+@media (max-width:768px){
+
+.contact-container{
+display:flex;
+flex-direction:column;
+}
+
+.contact-form{
+order:1;
+width:100%;
+}
+
+.contact-info{
+order:2;
+width:100%;
+margin-top:30px;
+}
+
+}
+
+@media (max-width:768px){
+
+.small-hero{
+height:220px;
+padding:10px;
+display:flex;
+position: relative;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.hero-text{
+width:85%;
+padding:12px 15px;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(0,0,0,0.45);
+color:white;
+padding:12px 15px;
+border-radius:10px;
+text-align:center;
+width:85%;
+}
+
+.hero-text h1{
+font-size:22px;
+margin-bottom:6px;
+
+}
+
+.hero-text p{
+font-size:13px;
+line-height:1.3;
 }
 
 }
