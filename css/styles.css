@@ -70,92 +70,8 @@ font-weight:500;
 .nav-links a:hover{
 color:#2b7cff;
 }
-@media (max-width:768px){
 
-.navbar{
-flex-wrap:wrap;
-}
 
-.menu-toggle{
-display:block;
-}
-
-.nav-links{
-display:none;
-flex-direction:column;
-width:100%;
-margin-top:10px;
-position:absolute;
-top:40px;
-left:0;
-width:100%;
-background:white;
-padding:20px 0;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-.nav-links.show{
-display:flex;
-}
-
-.nav-links li{
-text-align:center;
-padding:12px 0;
-}
-
-}
-
-@media (max-width:768px){
-
-.logo{
-height:40px;
-}
-
-.brand-main{
-font-size:18px;
-}
-
-.brand-sub{
-font-size:12px;
-}
-
-}
-
-.menu-toggle{
-display:none;
-font-size:26px;
-background:none;
-border:none;
-cursor:pointer;
-}
-
-@media (max-width:768px){
-
-.navbar{
-flex-wrap:wrap;
-}
-
-.menu-toggle{
-display:block;
-margin-left:auto;
-}
-
-.nav-links{
-display:none;
-width:100%;
-flex-direction:column;
-margin-top:10px;
-}
-
-.nav-links.show{
-display:flex;
-}
-
-.nav-links li{
-padding:10px 0;
-}
-
-}
 
 /* Sticky navigation bar */
 
@@ -624,85 +540,56 @@ font-size:14px;
 color:#ccc;
 }
 
-/* MOBILE RESPONSIVE DESIGN */
+/* ================= MOBILE NAVBAR ================= */
 
-@media (max-width: 768px){
+@media (max-width:768px){
 
 .navbar{
-flex-direction: column;
-align-items: flex-start;
-padding:15px 20px;
+flex-direction:row;
+align-items:center;
+padding:10px 15px;
 }
+
+.menu-toggle{
+display:block;
+margin-left:auto;
+}
+
+/* Hide menu initially */
 
 .nav-links{
-margin-top:10px;
-gap:15px;
-}
-
-.hero{
-height:220px;
-padding:20px;
-}
-
-.hero-text h1{
-font-size:26px;
-}
-
-.hero-text p{
-font-size:14px;
-}
-
-.contact-container{
-grid-template-columns:1fr;
-gap:30px;
-}
-
-.contact-form{
+display:none;
+flex-direction:column;
+position:absolute;
+top:60px;
+left:0;
 width:100%;
+background:white;
+padding:15px 0;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-.contact-info{
-width:100%;
+/* Show when hamburger clicked */
+
+.nav-links.show{
+display:flex;
 }
 
-.footer-container{
-grid-template-columns:1fr;
+.nav-links li{
 text-align:center;
+padding:12px 0;
 }
 
-}
-@media (max-width:768px){
+/* Reduce logo height */
 
-.small-hero{
-height:180px;
-padding:10px;
+.logo{
+height:40px;
 }
 
-.hero-text{
-padding:15px;
-max-width:90%;
-}
+/* Hide subtitle on mobile */
 
-.hero-text h1{
-font-size:22px;
-line-height:1.2;
-}
-
-.hero-text p{
-font-size:14px;
-}
-
-}
-@media (max-width:768px){
-
-.contact-container{
-grid-template-columns:1fr;
-gap:30px;
-}
-
-.contact-form,
-.contact-info{
-width:100%;
+.brand-sub{
+display:none;
 }
 
 }
