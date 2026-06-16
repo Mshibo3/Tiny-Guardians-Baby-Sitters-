@@ -295,6 +295,8 @@ padding:20px;
 border-radius:10px;
 box-shadow:0 5px 15px rgba(0,0,0,0.05);
 transition:transform 0.2s;
+display:flex;
+flex-direction:column;
 }
 
 .team-card:hover{
@@ -317,6 +319,25 @@ margin-bottom:5px;
 color:#2b7cff;
 font-weight:600;
 margin-bottom:10px;
+}
+
+/* Resume Button */
+
+.resume-btn{
+display:inline-block;
+background:#ff6b81;
+color:white;
+padding:10px 16px;
+text-decoration:none;
+border-radius:6px;
+font-weight:600;
+font-size:14px;
+margin-top:auto;
+transition:background 0.2s;
+}
+
+.resume-btn:hover{
+background:#ff4e73;
 }
 
 /* Navbar */
