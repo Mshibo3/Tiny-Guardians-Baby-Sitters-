@@ -2,67 +2,100 @@
 
 (function () {
 
+// Show GitHub Pages notice when the site is served from github.io
+var hostname = window.location.hostname;
+var isGitHubPages = hostname === "github.io" || hostname.endsWith(".github.io");
+if (isGitHubPages) {
+  var notice = document.getElementById("ghPagesNotice");
+  if (notice) notice.style.display = "block";
+}
+
 const form = document.getElementById("contactForm");
 const status = document.getElementById("formStatus");
 
-if(!form) return;
+if (!form) return;
 
-function isValidEmail(email){
-return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-form.addEventListener("submit", function(e){
-
-e.preventDefault();
-
-const name = document.getElementById("name").value.trim();
-const email = document.getElementById("email").value.trim();
-const phone = document.getElementById("phone").value.trim();
-const message = document.getElementById("message").value.trim();
-
-if(name.length < 2){
-status.textContent = "Please enter your full name.";
-return;
+function showStatus(msg, ok) {
+  if (!status) return;
+  status.textContent = msg;
+  status.style.display = "block";
+  status.style.background = ok ? "#d4edda" : "#f8d7da";
+  status.style.color = ok ? "#155724" : "#721c24";
+  status.style.border = "1px solid " + (ok ? "#c3e6cb" : "#f5c6cb");
 }
 
-if(!isValidEmail(email)){
-status.textContent = "Enter a valid email address.";
-return;
-}
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-if(phone.length < 7){
-status.textContent = "Enter a valid phone number.";
-return;
-}
+  const name    = (document.getElementById("name")    || {}).value || "";
+  const email   = (document.getElementById("email")   || {}).value || "";
+  const phone   = (document.getElementById("phone")   || {}).value || "";
+  const message = (document.getElementById("message") || {}).value || "";
 
-if(message.length < 10){
-status.textContent = "Message must be at least 10 characters.";
-return;
-}
+  // Client-side validation (mirrors server-side checks)
+  if (name.trim().length < 2) {
+    showStatus("Please enter your full name.", false);
+    return;
+  }
 
-status.textContent = "Sending message...";
+  if (!isValidEmail(email.trim())) {
+    showStatus("Enter a valid email address.", false);
+    return;
+  }
 
-emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
-name: name,
-email: email,
-phone: phone,
-message: message,
-to_email: "tinyguardiansbabysitters@gmail.com"
-})
+  if (phone.trim().length < 7) {
+    showStatus("Enter a valid phone number.", false);
+    return;
+  }
 
-.then(function(){
+  if (message.trim().length < 10) {
+    showStatus("Message must be at least 10 characters.", false);
+    return;
+  }
 
-status.textContent = "Message sent successfully!";
-form.reset();
+  // If on GitHub Pages, PHP won't run — inform the user instead of submitting
+  if (isGitHubPages) {
+    showStatus(
+      "The contact form requires a PHP server and is not available on GitHub Pages. " +
+      "Please email us directly at tinyguardiansbabysitters@gmail.com.",
+      false
+    );
+    return;
+  }
 
-})
+  const submitBtn = form.querySelector("button[type='submit']");
+  if (submitBtn) submitBtn.disabled = true;
+  showStatus("Sending message…", true);
 
-.catch(function(){
+  const data = new FormData(form);
 
-status.textContent = "Failed to send message. Please try again.";
-
-});
-
+  fetch("send.php", {
+    method: "POST",
+    body: data
+  })
+    .then(function (res) {
+      return res.text().then(function (text) {
+        return { ok: res.ok, text: text };
+      });
+    })
+    .then(function (result) {
+      if (result.ok) {
+        showStatus("✓ Message sent successfully! We will get back to you soon.", true);
+        form.reset();
+      } else {
+        showStatus("Error: " + (result.text || "Failed to send message. Please try again."), false);
+      }
+    })
+    .catch(function () {
+      showStatus("Network error. Please check your connection and try again.", false);
+    })
+    .finally(function () {
+      if (submitBtn) submitBtn.disabled = false;
+    });
 });
 
 })();

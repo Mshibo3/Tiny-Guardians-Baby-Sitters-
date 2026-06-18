@@ -59,6 +59,14 @@
 
 <!-- CONTACT SECTION -->
 
+<!-- GitHub Pages notice: shown only when running on github.io (PHP will not execute there) -->
+<div id="ghPagesNotice" style="display:none;background:#fff3cd;border:1px solid #ffc107;color:#856404;padding:14px 20px;margin:0 20px;border-radius:6px;max-width:700px;margin:20px auto;">
+  <strong>⚠ Heads-up:</strong> This site is currently hosted on GitHub Pages, which cannot run PHP.
+  The Send Message form will work once the site is deployed to a cPanel or PHP-capable host.
+  In the meantime you can reach us directly at
+  <a href="mailto:tinyguardiansbabysitters@gmail.com" style="color:#856404;font-weight:600;">tinyguardiansbabysitters@gmail.com</a>.
+</div>
+
 <section class="contact-section">
 
 <div class="contact-container">
@@ -68,7 +76,9 @@
 
 <h2>Send Us a Message</h2>
 
-<form id="contactForm">
+<div id="formStatus" style="display:none;padding:12px 16px;border-radius:6px;margin-bottom:16px;font-weight:600;"></div>
+
+<form id="contactForm" method="POST" action="send.php" novalidate>
 
 <div class="form-group">
 
@@ -100,6 +110,12 @@
 
 <textarea id="message" name="message" rows="5" required></textarea>
 
+</div>
+
+<!-- Honeypot: hidden from real users; bots fill it in -->
+<div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+  <label for="website">Leave this blank</label>
+  <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
 </div>
 
 <button type="submit" class="btn-primary">Send Message</button>
